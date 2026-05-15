@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system PDF tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended latexmk poppler-utils
+
+      - name: Syntax check
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m py_compile \
+            interviewforge/*.py \
+            skill/interview-video-review/scripts/local_interview_pipeline.py \
+            skill/interview-video-review/scripts/render_interview_tex.py \
+            skill/interview-video-review/scripts/validate_report.py
+
+      - name: Build minimal sample
+        run: |
+          python -m pip install -e .
+          interviewforge sample --out /tmp/interviewforge-sample
+          test -s /tmp/interviewforge-sample/interview_review.pdf

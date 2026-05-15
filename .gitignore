@@ -1,0 +1,43 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# Local media and ASR artifacts
+*.mov
+*.mp4
+*.m4a
+*.wav
+*.mp3
+audio.wav
+transcript_raw.*
+
+# Real InterviewForge run outputs
+interview_review.pdf
+!examples/minimal/interview_review.pdf
+references.md
+supporting_files/
+interview_reviews/
+
+# LaTeX intermediates
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.xdv
+*.synctex.gz
+
+# Local secrets
+.env
+.env.*
+*.key
+*.pem

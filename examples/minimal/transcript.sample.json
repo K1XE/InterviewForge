@@ -1,0 +1,31 @@
+{
+  "segments": [
+    {
+      "id": 0,
+      "start": 72.0,
+      "end": 80.0,
+      "time": "01:12",
+      "speaker": "SPEAKER_00",
+      "role": "interviewer",
+      "text": "你先介绍一下最近做的项目。"
+    },
+    {
+      "id": 1,
+      "start": 80.2,
+      "end": 160.0,
+      "time": "01:20",
+      "speaker": "SPEAKER_01",
+      "role": "candidate",
+      "text": "我最近做的是一个缓存系统优化项目，主要目标是降低接口延迟。"
+    },
+    {
+      "id": 2,
+      "start": 310.0,
+      "end": 318.0,
+      "time": "05:10",
+      "speaker": "SPEAKER_00",
+      "role": "interviewer",
+      "text": "写一个二分查找，返回第一个大于等于 target 的位置。"
+    }
+  ]
+}

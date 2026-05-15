@@ -1,0 +1,28 @@
+{
+  "candidates": [
+    {
+      "id": "qc001",
+      "segment_id": 0,
+      "start": 72.0,
+      "end": 80.0,
+      "time": "01:12",
+      "speaker": "SPEAKER_00",
+      "role": "interviewer",
+      "text": "你先介绍一下最近做的项目。",
+      "question_score": 4.5,
+      "confidence": "sample"
+    },
+    {
+      "id": "qc002",
+      "segment_id": 4,
+      "start": 180.0,
+      "end": 188.0,
+      "time": "03:00",
+      "speaker": "SPEAKER_00",
+      "role": "interviewer",
+      "text": "如果下游变慢，你怎么避免请求堆积？",
+      "question_score": 4.5,
+      "confidence": "sample"
+    }
+  ]
+}

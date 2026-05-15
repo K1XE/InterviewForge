@@ -1,0 +1,194 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[fontset=fandol]{ctex}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[a4paper,margin=2.05cm,top=2.25cm,bottom=2.25cm]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{etoolbox}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=DeepBlue,
+    urlcolor=DeepBlue,
+    citecolor=DeepBlue,
+    pdftitle={<<PDF_TITLE>>},
+    pdfauthor={Codex}
+}
+\xeCJKsetup{CJKecglue={}}
+
+\definecolor{DeepBlue}{HTML}{1F4E79}
+\definecolor{Ink}{HTML}{1F2933}
+\definecolor{Slate}{HTML}{52606D}
+\definecolor{SoftBlue}{HTML}{EAF4FF}
+\definecolor{SoftGreen}{HTML}{EBF8F1}
+\definecolor{SoftRed}{HTML}{FFF0F0}
+\definecolor{SoftYellow}{HTML}{FFF7DB}
+\definecolor{SoftViolet}{HTML}{F3F0FF}
+\definecolor{LineGray}{HTML}{D8DEE9}
+\definecolor{CodeBack}{HTML}{F7F8FA}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small <<SHORT_TITLE>>}
+\rhead{\small 面试复盘}
+\cfoot{\small \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist[itemize]{leftmargin=1.6em,itemsep=0.2em,topsep=0.2em}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=0.2em,topsep=0.2em}
+\renewcommand{\arraystretch}{1.25}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{DeepBlue}\bfseries,
+    stringstyle=\color{red!55!black},
+    commentstyle=\color{green!45!black},
+    backgroundcolor=\color{CodeBack},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{LineGray},
+    numbers=left,
+    numberstyle=\tiny\color{Slate},
+    captionpos=b,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+\newtcolorbox{verdictbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftBlue, colframe=DeepBlue, colbacktitle=DeepBlue,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.9pt
+}
+
+\newtcolorbox{riskbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftRed, colframe=red!60!black, colbacktitle=red!65!black,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.9pt
+}
+
+\newtcolorbox{betterbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftGreen, colframe=green!45!black, colbacktitle=green!45!black,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.9pt
+}
+
+\newtcolorbox{evidencebox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=black!2!white, colframe=Slate, colbacktitle=Slate,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{drillbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftYellow, colframe=yellow!55!black, colbacktitle=yellow!55!black,
+    coltitle=black, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{codebox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=CodeBack, colframe=Ink, colbacktitle=Ink,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{questioncard}[2][]{
+    enhanced, breakable, sharp corners,
+    colback=white, colframe=DeepBlue!75!black, colbacktitle=DeepBlue!75!black,
+    coltitle=white, fonttitle=\bfseries, title={#2},
+    left=1.2mm,right=1.2mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt,
+    #1
+}
+
+\newcommand{\scoretag}[1]{\tikz[baseline=(X.base)] \node[draw=DeepBlue!60,fill=SoftBlue,rounded corners=1.5pt,inner xsep=4pt,inner ysep=2pt](X){\small #1};}
+\newcommand{\risktag}[1]{\tikz[baseline=(X.base)] \node[draw=red!55!black,fill=SoftRed,rounded corners=1.5pt,inner xsep=4pt,inner ysep=2pt](X){\small #1};}
+\newcommand{\oktag}[1]{\tikz[baseline=(X.base)] \node[draw=green!45!black,fill=SoftGreen,rounded corners=1.5pt,inner xsep=4pt,inner ysep=2pt](X){\small #1};}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+{\Large 面试复盘\par}
+\vspace{0.6cm}
+{\Huge\bfseries <<REPORT_TITLE>>\par}
+\vspace{0.35cm}
+{\large <<REPORT_SUBTITLE>>\par}
+\vspace{0.5cm}
+{\small 生成时间：<<GENERATED_AT>> \quad 视频时长：<<DURATION>> \quad ASR：<<ASR_BACKEND>>\par}
+\vspace{0.7cm}
+
+\begin{verdictbox}{<<DASHBOARD_TITLE>>：总体结论}
+<<DASHBOARD_VERDICT>>
+\end{verdictbox}
+
+\vspace{0.35cm}
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{riskbox}{Top 5 扣分点}
+<<TOP_DEDUCTIONS>>
+\end{riskbox}
+\normalsize
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{betterbox}{Top 5 可复用亮点}
+<<TOP_STRENGTHS>>
+\end{betterbox}
+\normalsize
+\end{minipage}
+
+\vspace{0.35cm}
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{drillbox}{高风险技术点}
+<<HIGH_RISK_TOPICS>>
+\end{drillbox}
+\normalsize
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{evidencebox}{下一场优先级}
+<<NEXT_PRIORITIES>>
+\end{evidencebox}
+\normalsize
+\end{minipage}
+
+\vfill
+\begin{evidencebox}{本地证据说明}
+<<LOCAL_EVIDENCE>>
+\end{evidencebox}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+<<BODY>>
+
+\end{document}

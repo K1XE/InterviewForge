@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interview Video Review"
+  short_description: "Turn local interview recordings into LaTeX/PDF interview review playbooks."
+  default_prompt: "Use this skill to process a local interview video or audio file without uploading it, extract local transcript evidence, infer interviewer/candidate turns, select only meaningful evidence frames, build a structured review_plan.json, render a wdkns-style LaTeX/PDF interview playbook, and validate the PDF with pdfinfo, pdffonts, and pdftotext."

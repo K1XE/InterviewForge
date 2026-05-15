@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interviewforge"
+version = "0.1.0"
+description = "Local-first interview recording review reports with a Codex skill and CLI."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "K1XE" }
+]
+keywords = ["interview", "asr", "latex", "pdf", "codex-skill", "local-first"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+  "Topic :: Text Processing :: Markup :: LaTeX",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/K1XE/InterviewForge"
+Repository = "https://github.com/K1XE/InterviewForge"
+Issues = "https://github.com/K1XE/InterviewForge/issues"
+
+[project.scripts]
+interviewforge = "interviewforge.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["interviewforge*"]

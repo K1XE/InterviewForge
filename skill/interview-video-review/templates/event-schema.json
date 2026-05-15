@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InterviewEvents",
+  "type": "object",
+  "required": ["events"],
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "time_range", "interviewer_question", "candidate_answer"],
+        "properties": {
+          "id": {"type": "string"},
+          "type": {
+            "type": "string",
+            "enum": ["question", "followup", "coding", "project", "small_talk", "logistics"]
+          },
+          "start": {"type": "number"},
+          "end": {"type": "number"},
+          "time_range": {"type": "string"},
+          "interviewer_question": {"type": "string"},
+          "candidate_answer": {"type": "string"},
+          "technical_topics": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "evidence_frames": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "notes": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,424 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[fontset=fandol]{ctex}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[a4paper,margin=2.05cm,top=2.25cm,bottom=2.25cm]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{etoolbox}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=DeepBlue,
+    urlcolor=DeepBlue,
+    citecolor=DeepBlue,
+    pdftitle={通用面试复盘样例},
+    pdfauthor={Codex}
+}
+\xeCJKsetup{CJKecglue={}}
+
+\definecolor{DeepBlue}{HTML}{1F4E79}
+\definecolor{Ink}{HTML}{1F2933}
+\definecolor{Slate}{HTML}{52606D}
+\definecolor{SoftBlue}{HTML}{EAF4FF}
+\definecolor{SoftGreen}{HTML}{EBF8F1}
+\definecolor{SoftRed}{HTML}{FFF0F0}
+\definecolor{SoftYellow}{HTML}{FFF7DB}
+\definecolor{SoftViolet}{HTML}{F3F0FF}
+\definecolor{LineGray}{HTML}{D8DEE9}
+\definecolor{CodeBack}{HTML}{F7F8FA}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small 通用样例}
+\rhead{\small 面试复盘}
+\cfoot{\small \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist[itemize]{leftmargin=1.6em,itemsep=0.2em,topsep=0.2em}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=0.2em,topsep=0.2em}
+\renewcommand{\arraystretch}{1.25}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{DeepBlue}\bfseries,
+    stringstyle=\color{red!55!black},
+    commentstyle=\color{green!45!black},
+    backgroundcolor=\color{CodeBack},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{LineGray},
+    numbers=left,
+    numberstyle=\tiny\color{Slate},
+    captionpos=b,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+\newtcolorbox{verdictbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftBlue, colframe=DeepBlue, colbacktitle=DeepBlue,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.9pt
+}
+
+\newtcolorbox{riskbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftRed, colframe=red!60!black, colbacktitle=red!65!black,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.9pt
+}
+
+\newtcolorbox{betterbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftGreen, colframe=green!45!black, colbacktitle=green!45!black,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.9pt
+}
+
+\newtcolorbox{evidencebox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=black!2!white, colframe=Slate, colbacktitle=Slate,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{drillbox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=SoftYellow, colframe=yellow!55!black, colbacktitle=yellow!55!black,
+    coltitle=black, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{codebox}[1]{
+    enhanced, breakable, sharp corners,
+    colback=CodeBack, colframe=Ink, colbacktitle=Ink,
+    coltitle=white, fonttitle=\bfseries, title={#1},
+    left=1.1mm,right=1.1mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{questioncard}[2][]{
+    enhanced, breakable, sharp corners,
+    colback=white, colframe=DeepBlue!75!black, colbacktitle=DeepBlue!75!black,
+    coltitle=white, fonttitle=\bfseries, title={#2},
+    left=1.2mm,right=1.2mm,top=1mm,bottom=1mm,
+    boxrule=0.8pt,
+    #1
+}
+
+\newcommand{\scoretag}[1]{\tikz[baseline=(X.base)] \node[draw=DeepBlue!60,fill=SoftBlue,rounded corners=1.5pt,inner xsep=4pt,inner ysep=2pt](X){\small #1};}
+\newcommand{\risktag}[1]{\tikz[baseline=(X.base)] \node[draw=red!55!black,fill=SoftRed,rounded corners=1.5pt,inner xsep=4pt,inner ysep=2pt](X){\small #1};}
+\newcommand{\oktag}[1]{\tikz[baseline=(X.base)] \node[draw=green!45!black,fill=SoftGreen,rounded corners=1.5pt,inner xsep=4pt,inner ysep=2pt](X){\small #1};}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+{\Large 面试复盘\par}
+\vspace{0.6cm}
+{\Huge\bfseries 通用面试复盘样例\par}
+\vspace{0.35cm}
+{\large \par}
+\vspace{0.5cm}
+{\small 生成时间：YYYY-MM-DD \quad 视频时长：00:08:30 \quad ASR：sample transcript\par}
+\vspace{0.7cm}
+
+\begin{verdictbox}{首页摘要：总体结论}
+\textbf{总体通过概率}：中等偏上
+
+\textbf{总体结论}：项目主线能讲清，但负责范围、指标口径和代码边界需要更稳。
+
+\textbf{致命风险}：如果被追问缓存一致性或二分 invariant，当前回答有失分风险。
+\end{verdictbox}
+
+\vspace{0.35cm}
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{riskbox}{Top 5 扣分点}
+\begin{itemize}
+\item 项目开头没有先给量化指标。
+\item 缓存失效和一致性策略解释偏短。
+\item 代码题没有先声明 lower\_bound invariant。
+\end{itemize}
+\end{riskbox}
+\normalsize
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{betterbox}{Top 5 可复用亮点}
+\begin{itemize}
+\item 能把业务延迟和缓存方案联系起来。
+\item 能承认方案限制并给观测指标。
+\item 能在追问下回到数据和边界条件。
+\end{itemize}
+\end{betterbox}
+\normalsize
+\end{minipage}
+
+\vspace{0.35cm}
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{drillbox}{高风险技术点}
+\begin{itemize}
+\item 缓存一致性
+\item 超时与取消传播
+\item lower\_bound 二分
+\end{itemize}
+\end{drillbox}
+\normalsize
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\small
+\begin{evidencebox}{下一场优先级}
+\begin{itemize}
+\item 准备 30 秒项目主线。
+\item 背熟 lower\_bound 模板。
+\item 把实验指标和风险写成固定句。
+\end{itemize}
+\end{evidencebox}
+\normalsize
+\end{minipage}
+
+\vfill
+\begin{evidencebox}{本地证据说明}
+样例使用虚构 transcript 和 review\_plan，不含真实音视频。
+\end{evidencebox}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{首页摘要}
+
+\begin{itemize}
+\item 这是一个最小样例，用于验证 skill 的 LaTeX 模板、渲染器和验证器。
+\item 真实任务中应从本地 transcript、interview\_events 和 evidence frames 构造此 JSON。
+\end{itemize}
+
+\section{面试官问题与我的回答}
+
+\begin{questioncard}{1. 缓存系统优化项目 \hfill 01:12--02:40}
+
+\scoretag{passable 3/5} \oktag{key}
+
+
+
+\textbf{面试官问题}：你先介绍一下最近做的项目。
+
+
+
+\textbf{我的回答}：我最近做的是一个缓存系统优化项目，主要目标是降低核心接口的延迟。我先梳理读路径里哪些数据变化不频繁、访问量又比较高，然后设计缓存 key、TTL 和失效策略，并把命中率、P95/P99 延迟和错误率接到监控里。回答里能体现项目主线，但我没有一开始就把负责模块和最终指标讲清楚。
+
+
+
+\textbf{回答来源窗口}：01:15--02:35
+
+
+
+\textbf{建议答案}：建议先说：我负责一个缓存优化项目，目标是降低核心接口延迟；我主要做缓存 key 设计、失效策略和监控指标，最后用 P95/P99 延迟、命中率和错误率验证效果。个人贡献和数值必须来自本地转写或用户补充材料。
+
+
+
+\textbf{来源}：[L-q01] [REDIS-CACHE]
+
+
+
+\textbf{一句评价}：主线能成立，但要先给贡献、指标和限制。
+
+\end{questioncard}
+
+\begin{questioncard}{2. 超时和取消传播 \hfill 03:00--04:20}
+
+\scoretag{risky 3/5} \oktag{key}
+
+
+
+\textbf{面试官问题}：如果下游变慢，你怎么避免请求堆积？
+
+
+
+\textbf{我的回答}：我当时回答的是入口请求要设置超时，如果下游慢了不能一直等；可以配合重试、限流和降级，避免请求在队列里越堆越多。但我没有把 deadline 向下游传播、取消信号和重试预算讲清楚，也没有强调重试必须满足幂等和总预算限制。
+
+
+
+\textbf{回答来源窗口}：03:05--04:10
+
+
+
+\textbf{建议答案}：先给原则：入口请求带 deadline，向下游传播 context/cancellation；重试只在幂等且有预算时做，并配合限流、熔断和降级，避免把慢下游打得更慢。
+
+
+
+\textbf{来源}：[L-q01] [GO-CONTEXT]
+
+
+
+\textbf{一句评价}：有工程直觉，但需要把超时预算和重试风险讲清楚。
+
+\end{questioncard}
+
+\section{重点追问复盘}
+
+\begin{riskbox}{缓存系统优化项目 \hfill 01:12--02:40}
+
+\textbf{追问信号}：验证候选人能否把问题、方案、负责范围和效果压缩成清楚主线。
+
+
+
+\textbf{关键扣分点}：主线能成立，但要先给贡献、指标和限制。
+
+
+
+\textbf{下次一句话先答}：建议先说：我负责一个缓存优化项目，目标是降低核心接口延迟；我主要做缓存 key 设计、失效策略和监控指标，最后用 P95/P99 延迟、命中率和错误率验证效果。个人贡献和数值必须来自本地转写或用户补充材料。
+
+
+
+\textbf{来源}：[L-q01] [REDIS-CACHE]
+
+\end{riskbox}
+
+\begin{riskbox}{超时和取消传播 \hfill 03:00--04:20}
+
+\textbf{追问信号}：验证候选人是否理解超时、取消传播、限流和降级边界。
+
+
+
+\textbf{关键扣分点}：有工程直觉，但需要把超时预算和重试风险讲清楚。
+
+
+
+\textbf{下次一句话先答}：先给原则：入口请求带 deadline，向下游传播 context/cancellation；重试只在幂等且有预算时做，并配合限流、熔断和降级，避免把慢下游打得更慢。
+
+
+
+\textbf{来源}：[L-q01] [GO-CONTEXT]
+
+\end{riskbox}
+
+\section{代码题复盘}
+
+\begin{codebox}{lower\_bound 二分查找 \hfill 05:10--08:00}
+
+\textbf{现场表现}
+
+能写出二分结构，但一开始没有声明搜索区间语义。
+
+
+
+\textbf{关键问题}
+
+\begin{itemize}
+\item 没有先说返回第一个大于等于 target 的位置。
+\item 边界更新解释偏慢。
+\end{itemize}
+
+
+
+\textbf{标准思路}
+
+维护半开区间 [left, right)，循环条件 left < right；mid 可行时收缩右边界，否则收缩左边界。
+
+
+
+\textbf{复杂度}
+
+时间复杂度 O(log n)，空间复杂度 O(1)。
+
+
+
+\textbf{下一次口述稿}
+
+我找第一个满足 nums[i] >= target 的位置；右边界用 len(nums)，这样 target 大于所有元素时自然返回 n。
+
+
+
+\textbf{参考代码}
+
+\begin{lstlisting}[language=Python]
+
+def lower_bound(nums, target):
+    left, right = 0, len(nums)
+    while left < right:
+        mid = (left + right) // 2
+        if nums[mid] >= target:
+            right = mid
+        else:
+            left = mid + 1
+    return left
+
+\end{lstlisting}
+
+\textbf{来源}：[L-code01] [PY-BISECT]
+
+\end{codebox}
+
+\section{高风险技术点速记}
+
+\begin{drillbox}{缓存一致性与失效}
+
+\textbf{规则}：先说明数据新鲜度要求，再选择 TTL、主动失效、双写顺序或旁路缓存策略。
+
+
+
+\textbf{面试说法}：我会先按业务能接受的数据延迟来选策略：强一致就少缓存或同步失效，弱一致就用 TTL/事件失效，并用命中率、延迟和脏读告警验证。
+
+
+
+\textbf{来源}：[REDIS-CACHE]
+
+\end{drillbox}
+
+\begin{drillbox}{超时预算}
+
+\textbf{规则}：每个请求应有总 deadline，子调用共享或切分预算，取消信号向下游传播。
+
+
+
+\textbf{面试说法}：我会把超时作为调用链预算，而不是每层独立加一个很长 timeout；超过预算就取消下游并返回降级结果。
+
+
+
+\textbf{来源}：[GO-CONTEXT]
+
+\end{drillbox}
+
+\section{参考来源}
+\begin{enumerate}
+\item [L-q01] \textbf{你先介绍一下最近做的项目。}（local\_event）：interview\_events.json
+\item [L-code01] \textbf{代码题：lower\_bound 二分查找}（local\_event）：interview\_events.json
+\item [PY-BISECT] \textbf{Python documentation: bisect}（official\_docs）：\url{https://docs.python.org/3/library/bisect.html}；访问日期：YYYY-MM-DD
+\item [GO-CONTEXT] \textbf{Go documentation: context package}（official\_docs）：\url{https://pkg.go.dev/context}；访问日期：YYYY-MM-DD
+\item [REDIS-CACHE] \textbf{Redis documentation: cache management}（official\_docs）：\url{https://redis.io/docs/latest/develop/reference/client-side-caching/}；访问日期：YYYY-MM-DD
+\end{enumerate}
+
+\section{后续巩固资料}
+\begin{enumerate}
+\item \textbf{二分模板}｜Python documentation: bisect（official\_docs，high，English，short）\par \textbf{为什么看}：用官方 lower\_bound 语义校准返回值、边界和插入点定义。\par \textbf{链接}：\url{https://docs.python.org/3/library/bisect.html}
+\item \textbf{缓存系统设计}｜Redis documentation: client-side caching（official\_docs，high，English，short）\par \textbf{为什么看}：用于补齐缓存失效、命中率和一致性风险的面试表达。\par \textbf{链接}：\url{https://redis.io/docs/latest/develop/reference/client-side-caching/}
+\item \textbf{超时与取消传播}｜Go documentation: context package（official\_docs，high，English，short）\par \textbf{为什么看}：用于把 deadline、cancellation 和下游调用预算讲成清晰工程机制。\par \textbf{链接}：\url{https://pkg.go.dev/context}
+\item \textbf{项目答辩组织}｜来源不足，建议补材料（needs\_user\_material，high，Chinese，short）\par \textbf{为什么看}：个人贡献、实验数值和业务背景只能来自本地视频、简历或用户补充材料。\par \textbf{链接}：来源不足，建议补材料
+\item \textbf{实验指标}｜Google SRE Book: Monitoring Distributed Systems（official\_book，medium，English，medium）\par \textbf{为什么看}：用于把延迟、错误率、饱和度和告警指标组织成可防守的工程回答。\par \textbf{链接}：\url{https://sre.google/sre-book/monitoring-distributed-systems/}
+\end{enumerate}
+
+\end{document}

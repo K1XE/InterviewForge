@@ -1,0 +1,226 @@
+{
+  "metadata": {
+    "report_style": "compact_sourced",
+    "title": "通用面试复盘样例",
+    "short_title": "通用样例",
+    "subtitle": "",
+    "generated_at": "YYYY-MM-DD",
+    "duration": "00:08:30",
+    "source_video": "<local-video>",
+    "asr_backend": "sample transcript",
+    "speaker_confidence": "medium"
+  },
+  "source_registry": {
+    "sources": [
+      {
+        "id": "L-q01",
+        "type": "local_event",
+        "title": "q01 缓存系统优化项目",
+        "artifact_id": "interview_events.json",
+        "event_id": "q01",
+        "time_range": "01:12--02:40"
+      },
+      {
+        "id": "L-code01",
+        "type": "local_event",
+        "title": "代码题：lower_bound 二分查找",
+        "artifact_id": "interview_events.json",
+        "event_id": "code01",
+        "time_range": "05:10--08:00"
+      },
+      {
+        "id": "PY-BISECT",
+        "type": "official_docs",
+        "title": "Python documentation: bisect",
+        "url": "https://docs.python.org/3/library/bisect.html",
+        "accessed": "YYYY-MM-DD"
+      },
+      {
+        "id": "GO-CONTEXT",
+        "type": "official_docs",
+        "title": "Go documentation: context package",
+        "url": "https://pkg.go.dev/context",
+        "accessed": "YYYY-MM-DD"
+      },
+      {
+        "id": "REDIS-CACHE",
+        "type": "official_docs",
+        "title": "Redis documentation: cache management",
+        "url": "https://redis.io/docs/latest/develop/reference/client-side-caching/",
+        "accessed": "YYYY-MM-DD"
+      }
+    ]
+  },
+  "dashboard": {
+    "pass_probability": "中等偏上",
+    "verdict": "项目主线能讲清，但负责范围、指标口径和代码边界需要更稳。",
+    "fatal_risks": "如果被追问缓存一致性或二分 invariant，当前回答有失分风险。",
+    "top_deductions": [
+      "项目开头没有先给量化指标。",
+      "缓存失效和一致性策略解释偏短。",
+      "代码题没有先声明 lower_bound invariant。"
+    ],
+    "top_strengths": [
+      "能把业务延迟和缓存方案联系起来。",
+      "能承认方案限制并给观测指标。",
+      "能在追问下回到数据和边界条件。"
+    ],
+    "high_risk_topics": [
+      "缓存一致性",
+      "超时与取消传播",
+      "lower_bound 二分"
+    ],
+    "next_priorities": [
+      "准备 30 秒项目主线。",
+      "背熟 lower_bound 模板。",
+      "把实验指标和风险写成固定句。"
+    ],
+    "local_evidence": "样例使用虚构 transcript 和 review_plan，不含真实音视频。"
+  },
+  "overview": [
+    "这是一个最小样例，用于验证 skill 的 LaTeX 模板、渲染器和验证器。",
+    "真实任务中应从本地 transcript、interview_events 和 evidence frames 构造此 JSON。"
+  ],
+  "questions": [
+    {
+      "id": "q01",
+      "time_range": "01:12--02:40",
+      "title": "缓存系统优化项目",
+      "question": "你先介绍一下最近做的项目。",
+      "question_original": "你先介绍一下最近做的项目。",
+      "question_cleaned": "你先介绍一下最近做的项目。",
+      "intent": "验证候选人能否把问题、方案、负责范围和效果压缩成清楚主线。",
+      "answer_summary": "候选人说明做过缓存优化，目标是降低接口延迟，但负责边界和指标口径不够靠前。",
+      "my_answer_raw": "我最近做的是一个缓存系统优化项目 主要目标是降低核心接口的延迟 然后我先梳理读路径里哪些数据变化不频繁 访问量又比较高...",
+      "my_answer_cleaned": "我最近做的是一个缓存系统优化项目，主要目标是降低核心接口的延迟。我先梳理读路径里哪些数据变化不频繁、访问量又比较高，然后设计缓存 key、TTL 和失效策略，并把命中率、P95/P99 延迟和错误率接到监控里。回答里能体现项目主线，但我没有一开始就把负责模块和最终指标讲清楚。",
+      "answer_source_window": "01:15--02:35",
+      "answer_confidence": "medium",
+      "answer_polish_method": "heuristic_cleaned_original",
+      "suggested_answer": "建议先说：我负责一个缓存优化项目，目标是降低核心接口延迟；我主要做缓存 key 设计、失效策略和监控指标，最后用 P95/P99 延迟、命中率和错误率验证效果。个人贡献和数值必须来自本地转写或用户补充材料。",
+      "refs": ["L-q01", "REDIS-CACHE"],
+      "importance_label": "key",
+      "quality_label": "passable",
+      "score": "3/5",
+      "score_reason": "回答有有效信息，但表达需要更聚焦，避免让面试官从细节里反推主线。",
+      "comment": "主线能成立，但要先给贡献、指标和限制。",
+      "is_key": true,
+      "evidence": []
+    },
+    {
+      "id": "q02",
+      "time_range": "03:00--04:20",
+      "title": "超时和取消传播",
+      "question": "如果下游变慢，你怎么避免请求堆积？",
+      "question_original": "如果下游变慢，你怎么避免请求堆积？",
+      "question_cleaned": "如果下游变慢，你怎么避免请求堆积？",
+      "intent": "验证候选人是否理解超时、取消传播、限流和降级边界。",
+      "answer_summary": "候选人提到设置超时和重试，但没有明确取消传播和重试放大的风险。",
+      "my_answer_raw": "入口请求要设置超时 下游慢了不能一直等 可以配合重试 限流 降级 避免请求在队列里越堆越多...",
+      "my_answer_cleaned": "我当时回答的是入口请求要设置超时，如果下游慢了不能一直等；可以配合重试、限流和降级，避免请求在队列里越堆越多。但我没有把 deadline 向下游传播、取消信号和重试预算讲清楚，也没有强调重试必须满足幂等和总预算限制。",
+      "answer_source_window": "03:05--04:10",
+      "answer_confidence": "medium",
+      "answer_polish_method": "heuristic_cleaned_original",
+      "suggested_answer": "先给原则：入口请求带 deadline，向下游传播 context/cancellation；重试只在幂等且有预算时做，并配合限流、熔断和降级，避免把慢下游打得更慢。",
+      "refs": ["L-q01", "GO-CONTEXT"],
+      "importance_label": "key",
+      "quality_label": "risky",
+      "score": "3/5",
+      "score_reason": "回答有工程直觉，但需要把超时预算和重试风险讲清楚。",
+      "comment": "有工程直觉，但需要把超时预算和重试风险讲清楚。",
+      "is_key": true,
+      "evidence": []
+    }
+  ],
+  "technical_remediation": [
+    {
+      "topic": "缓存一致性与失效",
+      "risk": "只说加缓存容易被追问一致性、穿透、击穿和脏数据。",
+      "rule": "先说明数据新鲜度要求，再选择 TTL、主动失效、双写顺序或旁路缓存策略。",
+      "how_to_say": "我会先按业务能接受的数据延迟来选策略：强一致就少缓存或同步失效，弱一致就用 TTL/事件失效，并用命中率、延迟和脏读告警验证。",
+      "refs": ["REDIS-CACHE"],
+      "pitfalls": [
+        "不要只说加 Redis。",
+        "不要忽略缓存穿透、击穿和雪崩。"
+      ]
+    },
+    {
+      "topic": "超时预算",
+      "risk": "只说重试可能导致请求放大。",
+      "rule": "每个请求应有总 deadline，子调用共享或切分预算，取消信号向下游传播。",
+      "how_to_say": "我会把超时作为调用链预算，而不是每层独立加一个很长 timeout；超过预算就取消下游并返回降级结果。",
+      "refs": ["GO-CONTEXT"],
+      "pitfalls": [
+        "不要无限重试。",
+        "不要让下游 goroutine/request 在上游取消后继续跑。"
+      ]
+    }
+  ],
+  "coding_reviews": [
+    {
+      "problem": "lower_bound 二分查找",
+      "time_range": "05:10--08:00",
+      "observed_behavior": "能写出二分结构，但一开始没有声明搜索区间语义。",
+      "mistakes": [
+        "没有先说返回第一个大于等于 target 的位置。",
+        "边界更新解释偏慢。"
+      ],
+      "standard_approach": "维护半开区间 [left, right)，循环条件 left < right；mid 可行时收缩右边界，否则收缩左边界。",
+      "standard_code": "def lower_bound(nums, target):\n    left, right = 0, len(nums)\n    while left < right:\n        mid = (left + right) // 2\n        if nums[mid] >= target:\n            right = mid\n        else:\n            left = mid + 1\n    return left",
+      "complexity": "时间复杂度 O(log n)，空间复杂度 O(1)。",
+      "next_script": "我找第一个满足 nums[i] >= target 的位置；右边界用 len(nums)，这样 target 大于所有元素时自然返回 n。",
+      "refs": ["L-code01", "PY-BISECT"]
+    }
+  ],
+  "learning_resources": [
+    {
+      "topic": "二分模板",
+      "title": "Python documentation: bisect",
+      "type": "official_docs",
+      "url": "https://docs.python.org/3/library/bisect.html",
+      "why": "用官方 lower_bound 语义校准返回值、边界和插入点定义。",
+      "priority": "high",
+      "language": "English",
+      "duration": "short"
+    },
+    {
+      "topic": "缓存系统设计",
+      "title": "Redis documentation: client-side caching",
+      "type": "official_docs",
+      "url": "https://redis.io/docs/latest/develop/reference/client-side-caching/",
+      "why": "用于补齐缓存失效、命中率和一致性风险的面试表达。",
+      "priority": "high",
+      "language": "English",
+      "duration": "short"
+    },
+    {
+      "topic": "超时与取消传播",
+      "title": "Go documentation: context package",
+      "type": "official_docs",
+      "url": "https://pkg.go.dev/context",
+      "why": "用于把 deadline、cancellation 和下游调用预算讲成清晰工程机制。",
+      "priority": "high",
+      "language": "English",
+      "duration": "short"
+    },
+    {
+      "topic": "项目答辩组织",
+      "title": "来源不足，建议补材料",
+      "type": "needs_user_material",
+      "citation": "来源不足，建议补材料",
+      "why": "个人贡献、实验数值和业务背景只能来自本地视频、简历或用户补充材料。",
+      "priority": "high",
+      "language": "Chinese",
+      "duration": "short"
+    },
+    {
+      "topic": "实验指标",
+      "title": "Google SRE Book: Monitoring Distributed Systems",
+      "type": "official_book",
+      "url": "https://sre.google/sre-book/monitoring-distributed-systems/",
+      "why": "用于把延迟、错误率、饱和度和告警指标组织成可防守的工程回答。",
+      "priority": "medium",
+      "language": "English",
+      "duration": "medium"
+    }
+  ]
+}
