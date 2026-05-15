@@ -17,7 +17,7 @@ jobs:
       - name: Install system PDF tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended latexmk poppler-utils
+          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended texlive-lang-chinese latexmk poppler-utils
 
       - name: Syntax check
         run: |

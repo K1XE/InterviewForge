@@ -46,7 +46,7 @@ System tools used by the full video pipeline:
 
 - `ffmpeg` and `ffprobe`
 - a local ASR backend such as `whisperx`, `mlx-whisper`, `faster-whisper`, or `openai-whisper`
-- `latexmk`, `xelatex`, `pdfinfo`, `pdffonts`, and `pdftotext`
+- `latexmk`, `xelatex`, Chinese LaTeX support such as `texlive-lang-chinese`, `pdfinfo`, `pdffonts`, and `pdftotext`
 
 The minimal sample only needs Python plus a working LaTeX/PDF toolchain.
 
