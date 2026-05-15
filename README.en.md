@@ -16,6 +16,10 @@
   <img alt="Codex Skill" src="https://img.shields.io/badge/Codex-Skill-111827?style=for-the-badge">
 </p>
 
+<p align="center">
+  <img src="docs/assets/interviewforge-readme-hero.png" alt="InterviewForge workflow overview" width="100%">
+</p>
+
 InterviewForge turns a local interview video or audio file into a structured Chinese review report:
 
 - 🎙️ extract and normalize local transcript evidence;

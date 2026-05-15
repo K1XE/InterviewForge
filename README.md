@@ -16,6 +16,10 @@
   <img alt="Codex Skill" src="https://img.shields.io/badge/Codex-Skill-111827?style=for-the-badge">
 </p>
 
+<p align="center">
+  <img src="docs/assets/interviewforge-readme-hero.png" alt="InterviewForge workflow overview" width="100%">
+</p>
+
 InterviewForge 面向本地面试视频、面试录音和 mock interview。它不是逐字稿排版器，也不是课程笔记生成器；它更像一份面试后的作战复盘：尽量完整地记录面试官问了什么、你真实答了什么、哪些回答有风险、下次可以怎么更稳。
 
 核心输出是一份中文 LaTeX PDF：
