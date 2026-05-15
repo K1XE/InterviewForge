@@ -1,7 +1,11 @@
 # InterviewForge
 
 <p align="center">
-  <b>Forge local interview recordings into polished, source-backed review PDFs.</b>
+  <b>把本地面试录屏锻造成结构化、可追溯、可复习的中文 PDF 面试复盘。</b>
+</p>
+
+<p align="center">
+  <b>中文</b> · <a href="README.en.md">English</a>
 </p>
 
 <p align="center">
@@ -12,41 +16,103 @@
   <img alt="Codex Skill" src="https://img.shields.io/badge/Codex-Skill-111827?style=for-the-badge">
 </p>
 
-InterviewForge turns a local interview video or audio file into a structured Chinese review report:
+InterviewForge 面向本地面试视频、面试录音和 mock interview。它不是逐字稿排版器，也不是课程笔记生成器；它更像一份面试后的作战复盘：尽量完整地记录面试官问了什么、你真实答了什么、哪些回答有风险、下次可以怎么更稳。
 
-- 🎙️ extract and normalize local transcript evidence;
-- 🧭 recover interviewer questions with high recall;
-- ✍️ rewrite the candidate's real answers into readable cleaned prose;
-- 🧪 add compact quality labels such as `passable 3/5` or `risky 2/5`;
-- 📚 attach short suggested answers, sources, and follow-up learning resources;
-- 📄 render a polished LaTeX PDF and validate it with PDF tooling.
+核心输出是一份中文 LaTeX PDF：
 
-It ships as both a reusable agent skill and a normal CLI.
+- 🎙️ 从本地音视频抽取和规范化转写证据；
+- 🧭 高召回恢复面试官问题，而不是只挑 5-6 个摘要问题；
+- ✍️ 把候选人的真实回答整理成可读的“清理原话”；
+- 🧪 给每题加 `strong / passable / risky / weak` 质量标签和 `1-5` 分；
+- 📚 为建议答案、技术纠正和后续资料附上可追溯来源；
+- 📄 用 LaTeX 生成适合打印和复习的 PDF，并用 PDF 工具校验。
 
-| Surface | Path / Command | Use it when |
+## ✨ 效果预览
+
+样例使用完全虚构的缓存系统项目和二分查找代码题，不包含真实面试信息。
+
+| 首页摘要 | 问题卡片 | 后续资料 |
 |---|---|---|
-| Codex / agent skill | `skill/interview-video-review/` | You want an agent to inspect transcripts and write the judgment-heavy review plan. |
-| CLI | `interviewforge` | You want deterministic local steps, sample generation, rendering, and validation. |
-| LaTeX template | `skill/interview-video-review/assets/interview-review-template.tex` | You want to customize the PDF style. |
+| ![sample cover](docs/assets/interviewforge-sample-cover.png) | ![question card](docs/assets/interviewforge-question-card.png) | ![resources](docs/assets/interviewforge-resources.png) |
 
-## 🧩 Pipeline
+样例 PDF：[`examples/minimal/interview_review.pdf`](examples/minimal/interview_review.pdf)
+
+## 🧩 工作流
 
 ```mermaid
 flowchart LR
-    A["Local video/audio"] --> B["ffprobe + ffmpeg"]
-    B --> C["Local ASR"]
-    C --> D["Question candidates"]
-    D --> E["Agent cleanup queue"]
-    E --> F["review_plan.json"]
-    F --> G["LaTeX render"]
-    G --> H["Validated PDF"]
+    A["本地视频/音频"] --> B["ffprobe + ffmpeg"]
+    B --> C["本地 ASR"]
+    C --> D["问题候选"]
+    D --> E["回答证据窗口"]
+    E --> F["Agent 清理原话"]
+    F --> G["review_plan.json"]
+    G --> H["LaTeX 渲染"]
+    H --> I["PDF 校验"]
 ```
 
-The deterministic scripts handle media probing, audio extraction, transcript normalization, scaffolding, rendering, and validation. The agent/LLM step is intentionally explicit: it reviews `answer_polish_queue.json` and writes `question_cleaned` plus `my_answer_cleaned` so the report does not read like raw ASR.
+确定性脚本负责媒体探测、音频抽取、目录初始化、渲染和校验；agent/LLM 步骤负责判断更强的部分：从 `answer_polish_queue.json` 里按证据窗口清理问题和回答，避免报告读起来像原始 ASR 噪声。
 
-## 📦 Output
+## 📦 两种入口
 
-Each run uses a clean two-level layout:
+| 入口 | 路径 / 命令 | 适合场景 |
+|---|---|---|
+| Agent Skill | `skill/interview-video-review/` | 让 Codex/agent 读取转写、抽问题、写复盘判断和建议答案 |
+| CLI | `interviewforge` | 跑初始化、样例生成、渲染、编译和校验 |
+| LaTeX 模板 | `skill/interview-video-review/assets/interview-review-template.tex` | 自定义报告视觉风格 |
+
+## 🚀 安装
+
+```bash
+git clone https://github.com/K1XE/InterviewForge.git
+cd InterviewForge
+python3 -m pip install --upgrade pip setuptools wheel
+python3 -m pip install -e .
+```
+
+完整视频流水线建议本机准备：
+
+| 工具 | 用途 |
+|---|---|
+| `ffmpeg` / `ffprobe` | 媒体探测和本地音频抽取 |
+| WhisperX / faster-whisper / mlx-whisper / openai-whisper | 本地 ASR 后端 |
+| `latexmk` / `xelatex` | 中文 LaTeX PDF 编译 |
+| `pdfinfo` / `pdffonts` / `pdftotext` | PDF 校验 |
+
+## ⚡ 快速开始
+
+生成虚构样例：
+
+```bash
+interviewforge sample --out /tmp/interviewforge-sample
+open /tmp/interviewforge-sample/interview_review.pdf
+```
+
+渲染已有 `review_plan.json`：
+
+```bash
+interviewforge render --workdir /path/to/run
+interviewforge validate --workdir /path/to/run
+```
+
+处理真实本地视频的最小流程：
+
+```bash
+interviewforge init --workdir /path/to/run --input /path/to/interview.mov
+interviewforge pipeline probe --input /path/to/interview.mov --out-dir /path/to/run/supporting_files
+interviewforge pipeline extract-audio --input /path/to/interview.mov --audio /path/to/run/supporting_files/audio.wav
+```
+
+之后用本地 ASR 生成 transcript，再按 skill 流程抽取问题、整理回答、生成 `review_plan.json`，最后执行：
+
+```bash
+interviewforge render --workdir /path/to/run
+interviewforge validate --workdir /path/to/run
+```
+
+## 📁 输出结构
+
+每次运行默认使用干净的两级结构：
 
 ```text
 interview_review.pdf
@@ -62,118 +128,82 @@ supporting_files/
   quality_report.json
 ```
 
-The final PDF is not a transcript dump. It is optimized for pre-interview review:
+根目录只放最终报告和引用说明；可重建材料放在 `supporting_files/`。真实音视频、ASR 原始输出和 LaTeX 临时文件默认不应该提交。
 
-| Section | Purpose |
+## 📝 报告结构
+
+| 章节 | 目的 |
 |---|---|
-| 首页摘要 | Fast verdict, risks, strengths, and next priorities. |
-| 面试官问题与我的回答 | Main body: concrete questions and cleaned real answers. |
-| 重点追问复盘 | The 5-8 questions most likely to affect interview judgment. |
-| 代码题复盘 | Problem, approach, mistakes, template, complexity, oral script. |
-| 高风险技术点速记 | Short formula/rule cards for technical corrections. |
-| 参考来源 | Local evidence and public technical sources. |
-| 后续巩固资料 | 5-8 follow-up resources matched to exposed gaps. |
+| 首页摘要 | 快速结论、风险、亮点和下一场优先级 |
+| 面试官问题与我的回答 | 主体内容：具体问题 + 清理后的真实回答 |
+| 重点追问复盘 | 5-8 个最可能影响判断的问题 |
+| 代码题复盘 | 题目、思路、错误路径、模板、复杂度和口述稿 |
+| 高风险技术点速记 | 面试可用的短规则卡和技术纠正 |
+| 参考来源 | 本地证据和公开技术来源 |
+| 后续巩固资料 | 5-8 条和本场暴露问题匹配的学习资料 |
 
-## 🚀 Install
+问题卡片通常包含：
 
-```bash
-git clone https://github.com/K1XE/InterviewForge.git
-cd InterviewForge
-python3 -m pip install --upgrade pip setuptools wheel
-python3 -m pip install -e .
-```
-
-System tools for the full video pipeline:
-
-| Tool | Why |
+| 字段 | 说明 |
 |---|---|
-| `ffmpeg`, `ffprobe` | Media probing and local audio extraction. |
-| `whisperx`, `mlx-whisper`, `faster-whisper`, or `openai-whisper` | Local ASR backend. |
-| `latexmk`, `xelatex`, `texlive-lang-chinese` or equivalent | PDF rendering with Chinese support. |
-| `pdfinfo`, `pdffonts`, `pdftotext` | Report validation. |
+| 时间 | 对应 transcript / video 时间窗 |
+| 质量标签 | `strong`、`passable`、`risky`、`weak` |
+| 分数 | `1/5` 到 `5/5` |
+| 面试官问题 | 尽量贴近原问法 |
+| 我的回答 | 清理原话，不是标准答案改写 |
+| 建议答案 | 1-3 句，短而有来源 |
+| 来源 | 本地事件 id 和公开技术来源 |
 
-## ⚡ Quick Start
+## 🛡️ 隐私默认值
 
-Generate the fictional sample report:
+InterviewForge 默认按隐私优先设计：
 
-```bash
-interviewforge sample --out /tmp/interviewforge-sample
-open /tmp/interviewforge-sample/interview_review.pdf
-```
-
-Render and validate an existing `review_plan.json`:
-
-```bash
-interviewforge render --workdir /path/to/run
-interviewforge validate --workdir /path/to/run
-```
-
-Use the deterministic pipeline directly:
-
-```bash
-interviewforge init --workdir /path/to/run --input /path/to/interview.mov
-interviewforge pipeline probe --input /path/to/interview.mov --out-dir /path/to/run/supporting_files
-interviewforge pipeline extract-audio --input /path/to/interview.mov --audio /path/to/run/supporting_files/audio.wav
-```
-
-| Command | What it does |
+| 默认值 | 行为 |
 |---|---|
-| `interviewforge sample --out <dir>` | Builds a fictional minimal PDF for smoke testing. |
-| `interviewforge init --workdir <dir>` | Creates the clean run layout. |
-| `interviewforge pipeline ...` | Passes through to bundled deterministic pipeline subcommands. |
-| `interviewforge render --workdir <dir>` | Renders and compiles `supporting_files/review_plan.json`. |
-| `interviewforge validate --workdir <dir>` | Checks PDF, sections, sources, labels, and extractable text. |
+| 不上传 | 视频、音频、转写、截图和报告默认留在本机 |
+| 不放真实样例 | 仓库只包含虚构样例 |
+| 不暴露绝对路径 | PDF 和 `references.md` 默认只显示 event id、artifact id、时间段 |
+| 不编造事实 | 个人项目事实只能来自本地证据或用户补充材料 |
+| 技术纠正要有来源 | 论文、官方文档、官方 repo、课程或高质量公开资料 |
 
-## 🛡️ Privacy Defaults
+## 🧠 Skill 使用
 
-Interview recordings are sensitive, so the defaults are conservative.
-
-| Default | Behavior |
-|---|---|
-| No upload | Audio, video, transcripts, screenshots, and reports stay local unless you choose otherwise. |
-| No personal examples | The repository contains only fictional sample data. |
-| No absolute paths in reports | Local evidence is shown as event ids, artifact ids, and time ranges. |
-| Transient media artifacts | Extracted audio and LaTeX intermediates are not meant to be committed. |
-| Source discipline | Interview facts cite local evidence; technical corrections cite traceable public sources. |
-
-## 🧠 Skill Usage
-
-The skill entrypoint is:
+Skill 入口：
 
 ```text
 skill/interview-video-review/SKILL.md
 ```
 
-Install or symlink that directory into your agent skill root. The skill includes:
+可以把这个目录安装或软链接到你的 agent skill root。Skill 内包含：
 
-- report writing rules;
-- JSON data contracts;
-- privacy defaults;
-- LaTeX template;
-- validation checklist;
-- compact formula/reference cards.
+- 报告写作规则；
+- JSON 数据契约；
+- 隐私默认策略；
+- LaTeX 模板；
+- 校验脚本；
+- 参考来源和公式卡片。
 
-## 🧪 Example
+## 🧪 样例
 
-The fictional sample lives in `examples/minimal/`:
+虚构样例位于 `examples/minimal/`：
 
-| File | Description |
+| 文件 | 说明 |
 |---|---|
-| `review_plan.sample.json` | Complete compact sourced report plan. |
-| `transcript.sample.json` | Tiny fictional transcript. |
-| `question_candidates.sample.json` | Tiny fictional question candidate list. |
-| `interview_review.pdf` | Pre-rendered sample output. |
+| `review_plan.sample.json` | 完整的 sourced report plan |
+| `transcript.sample.json` | 极小虚构转写 |
+| `question_candidates.sample.json` | 极小虚构问题候选 |
+| `interview_review.pdf` | 预渲染样例 PDF |
 
-## ✅ Validation
+## ✅ 校验
 
-CI checks:
+CI 会检查：
 
-- Python syntax for the CLI and bundled scripts;
-- editable install;
-- minimal sample PDF generation;
-- report validation with `validate_report.py`.
+- CLI 和 bundled scripts 的 Python 语法；
+- editable install；
+- minimal sample PDF 生成；
+- `validate_report.py` 报告校验。
 
-Local validation for a real run should also include:
+真实运行时也建议检查：
 
 ```bash
 pdftotext interview_review.pdf -
@@ -181,9 +211,15 @@ pdffonts interview_review.pdf
 pdfinfo interview_review.pdf
 ```
 
-## 🙏 Acknowledgements
+## 📚 更详细的中文介绍
 
-Inspired by [`wdkns/wdkns-skills`](https://github.com/wdkns/wdkns-skills), especially its PDF-rendering skill patterns.
+我写了一篇更完整的中文介绍文档，包含使用场景、流程图、输出结构、样例截图、隐私设计和 FAQ：
+
+[InterviewForge：本地优先的面试视频复盘工具](https://feishu.cn/wiki/OrkjwGLE2in1iBkvAFdcBVg5nCe)
+
+## 🙏 致谢
+
+Inspired by [`wdkns/wdkns-skills`](https://github.com/wdkns/wdkns-skills).
 
 ## 📄 License
 
