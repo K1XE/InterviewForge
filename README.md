@@ -181,6 +181,10 @@ pdffonts interview_review.pdf
 pdfinfo interview_review.pdf
 ```
 
+## 🙏 Acknowledgements
+
+InterviewForge's LaTeX report style and skill workflow were inspired by the `wdkns` skill. Thanks to that work for the template ideas around polished PDF output, visual hierarchy, provenance-minded report generation, and validation-first packaging.
+
 ## 📄 License
 
 MIT
