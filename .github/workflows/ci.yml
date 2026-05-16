@@ -24,9 +24,9 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m py_compile \
             interviewforge/*.py \
-            skill/interview-video-review/scripts/local_interview_pipeline.py \
-            skill/interview-video-review/scripts/render_interview_tex.py \
-            skill/interview-video-review/scripts/validate_report.py
+            skill/interviewforge/scripts/local_interview_pipeline.py \
+            skill/interviewforge/scripts/render_interview_tex.py \
+            skill/interviewforge/scripts/validate_report.py
 
       - name: Build minimal sample
         run: |

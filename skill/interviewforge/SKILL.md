@@ -1,9 +1,9 @@
 ---
-name: interview-video-review
+name: interviewforge
 description: Turn local interview videos, interview recordings, or interview audio files into local-first Chinese interview review PDFs focused on interviewer questions, the candidate's answers, concise sourced standard answers, compact coding/technical follow-up review, and short follow-up learning resources. Use when the user provides a local .mov/.mp4/.m4a/.wav recording and asks for 面试复盘, 面经整理, 面试官问题, 我的回答, 建议答案, 标准答法, 回答评价, 代码题复盘, 后续巩固资料, Q&A extraction, speaker/role inference, source-backed corrections, or a polished LaTeX/PDF report. The skill extracts audio locally, transcribes locally when possible, infers interviewer/candidate roles, registers local/public sources, renders a wdkns-style LaTeX report, and validates the final PDF with pdfinfo/pdftotext/pdffonts.
 ---
 
-# Interview Video Review
+# InterviewForge
 
 Use this skill to convert any local interview video or audio recording into a Chinese interview review PDF. Optimize for: `面试官问题覆盖率 + 我的回答 > 简短建议答案 > 一句评价/关键扣分点 > 后续巩固资料`.
 

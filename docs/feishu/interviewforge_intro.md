@@ -44,7 +44,7 @@ InterviewForge 同时提供：
 
 | 入口 | 适合场景 | 说明 |
 |---|---|---|
-| Agent Skill | 想让 Codex/agent 根据转写做判断、整理回答、补来源 | `skill/interview-video-review/` |
+| Agent Skill | 想让 Codex/agent 根据转写做判断、整理回答、补来源 | `skill/interviewforge/` |
 | CLI | 想跑确定性的初始化、渲染、校验、样例生成 | `interviewforge` |
 
 ### 2. Local-first
@@ -365,7 +365,7 @@ Skill 规则要求：
 把仓库里的目录挂到你的 skill root：
 
 ```text
-skill/interview-video-review/
+skill/interviewforge/
 ```
 
 也可以软链接到本地 agent 的 skills 目录。具体路径取决于你的 agent runtime。
@@ -389,7 +389,7 @@ skill/interview-video-review/
 - GitHub： [K1XE/InterviewForge](https://github.com/K1XE/InterviewForge)
 - 样例 PDF： [examples/minimal/interview_review.pdf](https://github.com/K1XE/InterviewForge/blob/main/examples/minimal/interview_review.pdf)
 - 样例数据： [examples/minimal](https://github.com/K1XE/InterviewForge/tree/main/examples/minimal)
-- Skill 入口： [skill/interview-video-review/SKILL.md](https://github.com/K1XE/InterviewForge/blob/main/skill/interview-video-review/SKILL.md)
+- Skill 入口： [skill/interviewforge/SKILL.md](https://github.com/K1XE/InterviewForge/blob/main/skill/interviewforge/SKILL.md)
 
 ---
 

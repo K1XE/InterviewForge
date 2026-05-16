@@ -13,7 +13,11 @@
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge"></a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img alt="Local First" src="https://img.shields.io/badge/Privacy-Local--First-16a34a?style=for-the-badge">
+  <img alt="Agent Skill" src="https://img.shields.io/badge/Agent-Skill-111827?style=for-the-badge">
   <img alt="Codex Skill" src="https://img.shields.io/badge/Codex-Skill-111827?style=for-the-badge">
+  <img alt="Claude Code Skill" src="https://img.shields.io/badge/Claude%20Code-Skill-D97757?style=for-the-badge">
+  <img alt="OpenCode Skill" src="https://img.shields.io/badge/OpenCode-Skill-2563EB?style=for-the-badge">
+  <img alt="Gemini CLI Skill" src="https://img.shields.io/badge/Gemini%20CLI-Skill-4285F4?style=for-the-badge">
 </p>
 
 <p align="center">
@@ -31,56 +35,15 @@ InterviewForge turns a local interview video or audio file into a structured Chi
 
 It ships as both a reusable agent skill and a normal CLI.
 
-| Surface | Path / Command | Use it when |
-|---|---|---|
-| Codex / agent skill | `skill/interview-video-review/` | You want an agent to inspect transcripts and write the judgment-heavy review plan. |
-| CLI | `interviewforge` | You want deterministic local steps, sample generation, rendering, and validation. |
-| LaTeX template | `skill/interview-video-review/assets/interview-review-template.tex` | You want to customize the PDF style. |
+## 🧠 Agent Integration
 
-## 🧩 Pipeline
-
-```mermaid
-flowchart LR
-    A["Local video/audio"] --> B["ffprobe + ffmpeg"]
-    B --> C["Local ASR"]
-    C --> D["Question candidates"]
-    D --> E["Agent cleanup queue"]
-    E --> F["review_plan.json"]
-    F --> G["LaTeX render"]
-    G --> H["Validated PDF"]
-```
-
-The deterministic scripts handle media probing, audio extraction, transcript normalization, scaffolding, rendering, and validation. The agent/LLM step is intentionally explicit: it reviews `answer_polish_queue.json` and writes `question_cleaned` plus `my_answer_cleaned` so the report does not read like raw ASR.
-
-## 📦 Output
-
-Each run uses a clean two-level layout:
+InterviewForge can be used directly as an Agent Skill. The entrypoint is [`skill/interviewforge/SKILL.md`](skill/interviewforge/SKILL.md). To have an AI coding assistant install and configure it for you, send Codex, Claude Code, OpenCode, Qwen Code, Copilot, Gemini CLI, Cursor, Aider, Cline, or Roo Code:
 
 ```text
-interview_review.pdf
-references.md
-supporting_files/
-  review_plan.json
-  transcript_normalized.json
-  interview_events.json
-  source_registry.json
-  question_candidates.json
-  answer_polish_queue.json
-  interview_review.tex
-  quality_report.json
+Please help me install https://github.com/K1XE/InterviewForge
 ```
 
-The final PDF is not a transcript dump. It is optimized for pre-interview review:
-
-| Section | Purpose |
-|---|---|
-| 首页摘要 | Fast verdict, risks, strengths, and next priorities. |
-| 面试官问题与我的回答 | Main body: concrete questions and cleaned real answers. |
-| 重点追问复盘 | The 5-8 questions most likely to affect interview judgment. |
-| 代码题复盘 | Problem, approach, mistakes, template, complexity, oral script. |
-| 高风险技术点速记 | Short formula/rule cards for technical corrections. |
-| 参考来源 | Local evidence and public technical sources. |
-| 后续巩固资料 | 5-8 follow-up resources matched to exposed gaps. |
+Agent-facing installation details live in [`AGENTS.md`](AGENTS.md), including common skill directories, symlink setup, and migration from the old skill name.
 
 ## 🚀 Install
 
@@ -132,6 +95,51 @@ interviewforge pipeline extract-audio --input /path/to/interview.mov --audio /pa
 | `interviewforge render --workdir <dir>` | Renders and compiles `supporting_files/review_plan.json`. |
 | `interviewforge validate --workdir <dir>` | Checks PDF, sections, sources, labels, and extractable text. |
 
+## 🧩 Pipeline
+
+```mermaid
+flowchart LR
+    A["Local video/audio"] --> B["ffprobe + ffmpeg"]
+    B --> C["Local ASR"]
+    C --> D["Question candidates"]
+    D --> E["Agent cleanup queue"]
+    E --> F["review_plan.json"]
+    F --> G["LaTeX render"]
+    G --> H["Validated PDF"]
+```
+
+The deterministic scripts handle media probing, audio extraction, transcript normalization, scaffolding, rendering, and validation. The agent/LLM step is intentionally explicit: it reviews `answer_polish_queue.json` and writes `question_cleaned` plus `my_answer_cleaned` so the report does not read like raw ASR.
+
+## 📦 Output
+
+Each run uses a clean two-level layout:
+
+```text
+interview_review.pdf
+references.md
+supporting_files/
+  review_plan.json
+  transcript_normalized.json
+  interview_events.json
+  source_registry.json
+  question_candidates.json
+  answer_polish_queue.json
+  interview_review.tex
+  quality_report.json
+```
+
+The final PDF is not a transcript dump. It is optimized for pre-interview review:
+
+| Section | Purpose |
+|---|---|
+| 首页摘要 | Fast verdict, risks, strengths, and next priorities. |
+| 面试官问题与我的回答 | Main body: concrete questions and cleaned real answers. |
+| 重点追问复盘 | The 5-8 questions most likely to affect interview judgment. |
+| 代码题复盘 | Problem, approach, mistakes, template, complexity, oral script. |
+| 高风险技术点速记 | Short formula/rule cards for technical corrections. |
+| 参考来源 | Local evidence and public technical sources. |
+| 后续巩固资料 | 5-8 follow-up resources matched to exposed gaps. |
+
 ## 🛡️ Privacy Defaults
 
 Interview recordings are sensitive, so the defaults are conservative.
@@ -143,23 +151,6 @@ Interview recordings are sensitive, so the defaults are conservative.
 | No absolute paths in reports | Local evidence is shown as event ids, artifact ids, and time ranges. |
 | Transient media artifacts | Extracted audio and LaTeX intermediates are not meant to be committed. |
 | Source discipline | Interview facts cite local evidence; technical corrections cite traceable public sources. |
-
-## 🧠 Skill Usage
-
-The skill entrypoint is:
-
-```text
-skill/interview-video-review/SKILL.md
-```
-
-Install or symlink that directory into your agent skill root. The skill includes:
-
-- report writing rules;
-- JSON data contracts;
-- privacy defaults;
-- LaTeX template;
-- validation checklist;
-- compact formula/reference cards.
 
 ## 🧪 Example
 

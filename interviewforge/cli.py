@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_DIR = PROJECT_ROOT / "skill" / "interview-video-review"
+SKILL_DIR = PROJECT_ROOT / "skill" / "interviewforge"
 PIPELINE = SKILL_DIR / "scripts" / "local_interview_pipeline.py"
 RENDERER = SKILL_DIR / "scripts" / "render_interview_tex.py"
 TEMPLATE = SKILL_DIR / "assets" / "interview-review-template.tex"

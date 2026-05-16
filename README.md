@@ -13,7 +13,11 @@
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge"></a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img alt="Local First" src="https://img.shields.io/badge/Privacy-Local--First-16a34a?style=for-the-badge">
+  <img alt="Agent Skill" src="https://img.shields.io/badge/Agent-Skill-111827?style=for-the-badge">
   <img alt="Codex Skill" src="https://img.shields.io/badge/Codex-Skill-111827?style=for-the-badge">
+  <img alt="Claude Code Skill" src="https://img.shields.io/badge/Claude%20Code-Skill-D97757?style=for-the-badge">
+  <img alt="OpenCode Skill" src="https://img.shields.io/badge/OpenCode-Skill-2563EB?style=for-the-badge">
+  <img alt="Gemini CLI Skill" src="https://img.shields.io/badge/Gemini%20CLI-Skill-4285F4?style=for-the-badge">
 </p>
 
 <p align="center">
@@ -31,41 +35,17 @@ InterviewForge 面向本地面试视频、面试录音和 mock interview。它�
 - 📚 为建议答案、技术纠正和后续资料附上可追溯来源；
 - 📄 用 LaTeX 生成适合打印和复习的 PDF，并用 PDF 工具校验。
 
-## ✨ 效果预览
+## 🧠 Agent 集成
 
-样例使用完全虚构的缓存系统项目和二分查找代码题，不包含真实面试信息。
+InterviewForge 可以直接作为 Agent Skill 使用，入口是 [`skill/interviewforge/SKILL.md`](skill/interviewforge/SKILL.md)。如果你想让自己的 AI 助手安装并配置它，可以直接把这句话发给 Codex、Claude Code、OpenCode、Qwen Code、Copilot、Gemini CLI、Cursor、Aider、Cline 或 Roo Code：
 
-| 首页摘要 | 问题卡片 | 后续资料 |
-|---|---|---|
-| ![sample cover](docs/assets/interviewforge-sample-cover.png) | ![question card](docs/assets/interviewforge-question-card.png) | ![resources](docs/assets/interviewforge-resources.png) |
-
-样例 PDF：[`examples/minimal/interview_review.pdf`](examples/minimal/interview_review.pdf)
-
-## 🧩 工作流
-
-```mermaid
-flowchart LR
-    A["本地视频/音频"] --> B["ffprobe + ffmpeg"]
-    B --> C["本地 ASR"]
-    C --> D["问题候选"]
-    D --> E["回答证据窗口"]
-    E --> F["Agent 清理原话"]
-    F --> G["review_plan.json"]
-    G --> H["LaTeX 渲染"]
-    H --> I["PDF 校验"]
+```text
+请你帮我安装一下 https://github.com/K1XE/InterviewForge
 ```
 
-确定性脚本负责媒体探测、音频抽取、目录初始化、渲染和校验；agent/LLM 步骤负责判断更强的部分：从 `answer_polish_queue.json` 里按证据窗口清理问题和回答，避免报告读起来像原始 ASR 噪声。
+面向 agent 的详细安装说明在 [`AGENTS.md`](AGENTS.md)，包括各类 coding agent / coding CLI 的 skill 目录、软链接方式和旧名迁移。
 
-## 📦 两种入口
-
-| 入口 | 路径 / 命令 | 适合场景 |
-|---|---|---|
-| Agent Skill | `skill/interview-video-review/` | 让 Codex/agent 读取转写、抽问题、写复盘判断和建议答案 |
-| CLI | `interviewforge` | 跑初始化、样例生成、渲染、编译和校验 |
-| LaTeX 模板 | `skill/interview-video-review/assets/interview-review-template.tex` | 自定义报告视觉风格 |
-
-## 🚀 安装
+## 🚀 安装 CLI
 
 ```bash
 git clone https://github.com/K1XE/InterviewForge.git
@@ -113,6 +93,32 @@ interviewforge pipeline extract-audio --input /path/to/interview.mov --audio /pa
 interviewforge render --workdir /path/to/run
 interviewforge validate --workdir /path/to/run
 ```
+
+## ✨ 效果预览
+
+样例使用完全虚构的缓存系统项目和二分查找代码题，不包含真实面试信息。
+
+| 首页摘要 | 问题卡片 | 后续资料 |
+|---|---|---|
+| ![sample cover](docs/assets/interviewforge-sample-cover.png) | ![question card](docs/assets/interviewforge-question-card.png) | ![resources](docs/assets/interviewforge-resources.png) |
+
+样例 PDF：[`examples/minimal/interview_review.pdf`](examples/minimal/interview_review.pdf)
+
+## 🧩 工作流
+
+```mermaid
+flowchart LR
+    A["本地视频/音频"] --> B["ffprobe + ffmpeg"]
+    B --> C["本地 ASR"]
+    C --> D["问题候选"]
+    D --> E["回答证据窗口"]
+    E --> F["Agent 清理原话"]
+    F --> G["review_plan.json"]
+    G --> H["LaTeX 渲染"]
+    H --> I["PDF 校验"]
+```
+
+确定性脚本负责媒体探测、音频抽取、目录初始化、渲染和校验；agent/LLM 步骤负责判断更强的部分：从 `answer_polish_queue.json` 里按证据窗口清理问题和回答，避免报告读起来像原始 ASR 噪声。
 
 ## 📁 输出结构
 
@@ -169,23 +175,6 @@ InterviewForge 默认按隐私优先设计：
 | 不暴露绝对路径 | PDF 和 `references.md` 默认只显示 event id、artifact id、时间段 |
 | 不编造事实 | 个人项目事实只能来自本地证据或用户补充材料 |
 | 技术纠正要有来源 | 论文、官方文档、官方 repo、课程或高质量公开资料 |
-
-## 🧠 Skill 使用
-
-Skill 入口：
-
-```text
-skill/interview-video-review/SKILL.md
-```
-
-可以把这个目录安装或软链接到你的 agent skill root。Skill 内包含：
-
-- 报告写作规则；
-- JSON 数据契约；
-- 隐私默认策略；
-- LaTeX 模板；
-- 校验脚本；
-- 参考来源和公式卡片。
 
 ## 🧪 样例
 
